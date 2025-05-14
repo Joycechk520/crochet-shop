@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>🛒 我的购物车</h1></header>
+    <main>
+        <ul id="cart-items"></ul>
+        <h3 id="total"></h3>
+        <form action="https://formspree.io/f/your_form_id" method="POST">
+            <h2>填写订单信息</h2>
+            <input type="text" name="name" placeholder="姓名" required><br>
+            <input type="text" name="address" placeholder="地址" required><br>
+            <input type="tel" name="phone" placeholder="电话" required><br>
+            <input type="hidden" name="order" id="order-details">
+            <button type="submit">提交订单</button>
+        </form>
+    </main>
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const list = document.getElementById('cart-items');
+        const orderDetails = [];
+        let total = 0;
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.name + " - ￥" + item.price;
+            list.appendChild(li);
+            orderDetails.push(item.name + " - ￥" + item.price);
+            total += item.price;
+        });
+        document.getElementById('order-details').value = orderDetails.join(", ");
+        document.getElementById('total').textContent = "总计: ￥" + total;
+    </script>
+</body>
+</html>
